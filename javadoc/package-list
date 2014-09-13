@@ -1,0 +1,16 @@
+org.dbasu.robomvvm.annotation
+org.dbasu.robomvvm.binding
+org.dbasu.robomvvm.componentadapter.adapterview
+org.dbasu.robomvvm.componentadapter.compoundbutton
+org.dbasu.robomvvm.componentadapter.edittext
+org.dbasu.robomvvm.componentadapter.imageview
+org.dbasu.robomvvm.componentadapter.listview
+org.dbasu.robomvvm.componentadapter.menuitem
+org.dbasu.robomvvm.componentadapter.progressbar
+org.dbasu.robomvvm.componentadapter.ratingbar
+org.dbasu.robomvvm.componentadapter.seekbar
+org.dbasu.robomvvm.componentadapter.textview
+org.dbasu.robomvvm.componentadapter.view
+org.dbasu.robomvvm.componentmodel
+org.dbasu.robomvvm.util
+org.dbasu.robomvvm.viewmodel
