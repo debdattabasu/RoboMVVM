@@ -1,12 +1,13 @@
 RoboMVVM - MVVM Framework For Android
 =====================================
 
-RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to simplify building, testing and refactoring UI heavy applications. The MVVM pattern heavily utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding), the ability to make property changes in one component reflect in its observers. This requires a mechanism to notify observers of property changes in a component. The MVVM pattern also allows Action Binding, which is the binding of events in a component to actions in its observers. 
+RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to simplify building, testing and refactoring UI heavy applications. The MVVM pattern heavily utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding), the ability to make property changes in one component reflect in its observers.
 
+RoboMVVM will save countless hours of your time by providing you with the tools you need to quickly setup bindings between your views and your data models. 
 
-RoboMVVM will save countless hours of your time by providing you with the tools you need to quickly setup bindings between your views and your data models. At the core of the RoboMVVM library is the Component class, which is a container for events, properties, and actions. The Binding class is used to bind properties to properties and events to actions between a source component and a target component. Bindings can be one way or two way as specified by a BindMode, and a ValueConverter is used to convert between source and target properties 
+At the core of the RoboMVVM library is the [Component](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/Component.java) class, which is a container for events, properties, and actions. The [Binding](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/Binding.java) class is used to bind properties to properties and events to actions between a source component and a target component. Bindings can be one way or two way as specified by a [BindMode](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/BindMode.java), and a [ValueConverter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/ValueConverter.java) is used to convert between source and target properties 
 
-Because Android does not have a standard property change and event notification system, an MVVM library must wrap Android classes in its own adapters to allow for Data and Action binding. RoboMVVM provides the ComponentAdapter base class for this purpose. It also provides many ComponentAdapter subclasses that act as adapters for most commonly used Android classes.
+Because Android does not have a standard property change and event notification system, an MVVM library must wrap Android classes in its own adapters to allow for Data and Action binding. RoboMVVM provides the [ComponentAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/ComponentAdapter.java) base class for this purpose. It also provides many ComponentAdapter subclasses that act as adapters for most commonly used Android classes.
 
 Please refer to the [Javadoc](http://debdattabasu.github.io/RoboMVVM/javadoc/) for more information.
 
@@ -14,7 +15,7 @@ Please refer to the [Javadoc](http://debdattabasu.github.io/RoboMVVM/javadoc/) f
 TextSync - An Enlightening Use Case
 ===================================
 
-Android code is notoriously ugly to write and maintain. For example, consider the code we need to write to keep the text property of two [EditText](http://developer.android.com/reference/android/widget/EditText.html)s in sync. You can also find this sample in the repository[here]().
+Android code is notoriously ugly to write and maintain. For example, consider the code we need to write to keep the text property of two [EditText](http://developer.android.com/reference/android/widget/EditText.html)s in sync. You can also find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_textsync_no_mvvm).
 
 ```java
 public class MainActivity extends Activity {
@@ -77,7 +78,7 @@ public class MainActivity extends Activity {
 
 That's an awful lot of code for such a simple task. You will notice that the actual business logic is only a handful of lines. The rest of the code is just boilerplate to conform to how android works. This is repetitive code that must be written a countess number times in every android project, and in many cases, this obfuscates the real intent of the code. 
 
-Now consider the same example with data binding in RoboMVVM. You can also find this sample in the repository[here]().
+Now consider the same example with data binding in RoboMVVM. You can also find this sample in the repository[here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_textsync).
 
 ```java
 public class MainActivity extends Activity {
@@ -121,7 +122,7 @@ It is immediately evident that the code is a lot shorter. What is more important
 Property Binding Mechanism
 ===========================
 
-When a one-way binding is set up from a source property to a target property, an EventListener is added to the source component that listens for changes to the specified property. When that property changes, The new value is retreived from the source object using the source component's getProperty function. The value is then passed through the ValueConverter, if any, and the final value is assigned to the target property using the target component's setProperty function. 
+When a one-way binding is set up from a source property to a target property, an [EventListener](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/EventListener.java) is added to the source component that listens for changes to the specified property. When that property changes, The new value is retreived from the source object using the source component's getProperty function. The value is then passed through the ValueConverter, if any, and the final value is assigned to the target property using the target component's setProperty function. 
 
 The getProperty function calls a getter function with a corresponding name and return type. The setProperty function chooses a setter function in the target component based on the property name and the type of the supplied argument. For example, if the name of the property is foo, and the supplied argument is of type int, then the following function calls are attempted:
 
@@ -130,15 +131,40 @@ void setFoo(int arg);
 int getFoo(); 
 ```
 
-The same mechanism is replicated in the other direction for two-way bindings. 
+The same mechanism is replicated in the other direction for two-way bindings.
+
+
+For example, to bi-directionally bind the "helloText" property of a View Model to the text property of an edit text with id R.id.edit_text_0, you would do the following: 
+
+```java
+public class MyViewModel extends ViewModel {
+	
+	private String helloText = "Hello World!";
+
+    public String getHelloText() {
+        return  text;
+    }
+
+    public void setHelloText(String text) {
+        this.text = text;
+        raisePropertyChangeEvent("text");
+    }
+
+	void bind() {
+		bindProperty("helloText", R.id.edit_text_0, "text", BindMode.BIDIRECTIONAL);
+	}
+}
+```
+
+Notice that a bidirectional binding requires both a getter and a setter to be present in the view model. In case of a one way binding, the getter function is sufficient.  
 
 
 Action Binding Mechanism
 ========================
 
-When a binding is set up between an event in the source component to an action in the target component, an EventListener is added to the source component that listens for events of the specified type. When such an event is raised, an action is called using the target component's invokeAction function. This function calls all functions in the component whose names match the supplied action name, have a void return type, and have either a single argument of a type compatible with the supplied event arg, or no arguments. 
+When a binding is set up between an event in the source component to an action in the target component, an [EventListener](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/EventListener.java) is added to the source component that listens for events of the specified type. When such an event is raised, an action is called using the target component's invokeAction function. This function calls all functions in the component whose names match the supplied action name, have a void return type, and have either a single argument of a type compatible with the supplied event arg, or no arguments. 
 
-For example, when an event of type ClickEventArg, which is derived from EventArg, is assigned to an action named doSomething, all of the following functions are called: 
+So, when an event of type [ClickEventArg](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentadapter/view/ClickEventArg.java), which is derived from [EventArg](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/EventArg.java), is assigned to an action named doSomething, all of the following functions are called: 
 
 ```java
 void doSomething(ClickEventArg arg); 
@@ -146,6 +172,21 @@ void doSomething(ClickEventArg arg);
 void doSomething(EventArg arg); 
 
 void doSomething(); 
+```
+
+For example, to bind the Click event of a Button with id R.id.button_send to an action called "send", you would do the following: 
+
+```java
+public class MyViewModel extends ViewModel {
+	
+	public void send() {
+		//handle sending logic here.
+	}
+
+	void bind() {
+		bindAction(R.id.button_send, ClickEventArg.class, "send");
+	}
+}
 ```
 
 
@@ -158,7 +199,7 @@ RoboMVVM lets you create lists of arbitrary View Models and bind them to [Adapte
 Item List Sample
 ================
 
-This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. 
+This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_itemlist). 
 
 
 License
