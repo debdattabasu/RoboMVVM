@@ -295,7 +295,8 @@ RoboMVVM lets you create lists of arbitrary View Models and bind them to [Adapte
 @SetLayout(R.layout.list_layout)
 public class ListViewModel extends ViewModel {
 
-	private ViewModelCollection<HelloViewModel> greetingCollection = new ViewModelCollection<HelloViewModel>(); 
+	private ViewModelCollection<HelloViewModel> greetingCollection = 
+		new ViewModelCollection<HelloViewModel>(); 
 
 	public ViewModelCollection<HelloViewModel> getGreetingCollection() {
 		return greetingColection;
@@ -314,7 +315,7 @@ Adapting Third Party Classes
 
 The [ComponentAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/ComponentAdapter.java) class is provided to adapt third party classes to RoboMVVM. This class is in use internally to adapt various android classes. 
 
-For example, the adapter for [EditText](EditTexts](http://developer.android.com/reference/android/widget/EditText.html) is implemented in the library by the [EditTextViewAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentadapter/edittext/EditTextViewAdapter.java) class. This class subclasses [TextViewAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentadapter/textview/TextViewAdapter.java) which wraps a [TextView](http://developer.android.com/reference/android/widget/TextView.html).
+For example, the adapter for [EditText](http://developer.android.com/reference/android/widget/EditText.html) is implemented in the library by the [EditTextViewAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentadapter/edittext/EditTextViewAdapter.java) class. This class subclasses [TextViewAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentadapter/textview/TextViewAdapter.java) which wraps a [TextView](http://developer.android.com/reference/android/widget/TextView.html).
 
 The code looks like this:
 
