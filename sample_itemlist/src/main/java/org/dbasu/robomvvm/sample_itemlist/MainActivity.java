@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
          * activity.
          */
         MainActivityViewModel viewModel = new MainActivityViewModel(this);
-        rootView = viewModel.getView();
+        rootView = viewModel.createView();
         setContentView(rootView);
 
         /**
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
          */
 
         AboutPopupViewModel aboutPopupViewModel = new AboutPopupViewModel(this);
-        aboutPopup = new PopupWindow(aboutPopupViewModel.getView(), LayoutParams.WRAP_CONTENT,
+        aboutPopup = new PopupWindow(aboutPopupViewModel.createView(), LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
 
     }

@@ -3,8 +3,6 @@ package org.dbasu.robomvvm.sample_textsync;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import org.dbasu.robomvvm.annotation.SetLayout;
 import org.dbasu.robomvvm.binding.BindMode;
@@ -41,6 +39,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new MainActivityViewModel(this).getView());
+        setContentView(new MainActivityViewModel(this).createView());
     }
 }

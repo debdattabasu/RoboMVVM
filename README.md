@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(new MainActivityViewModel(this).getView());
+        setContentView(new MainActivityViewModel(this).createView());
     }
 }
 ```

@@ -122,7 +122,7 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
         View view = viewModel.convertView(convertView);
         if(view != null) return view;
 
-        return viewModel.getView(parent);
+        return viewModel.createView(parent);
 
     }
 

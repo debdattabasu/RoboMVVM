@@ -68,7 +68,7 @@ public class AdapterViewAdapter extends ViewAdapter {
      */
     public void setEmptyViewModel(ViewModel value) {
         AdapterView adapterView = (AdapterView) targetObject;
-        View emptyView = value.getView();
+        View emptyView = value.createView();
         emptyView.setVisibility(View.GONE);
         ViewGroup parent = (ViewGroup)adapterView.getParent();
         int index = parent.indexOfChild(adapterView);

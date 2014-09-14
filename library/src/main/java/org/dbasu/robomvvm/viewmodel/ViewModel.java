@@ -118,8 +118,8 @@ public class ViewModel extends BaseViewModel {
      * @return
      *          The created view.
      */
-    public View getView() {
-        return getView(null);
+    public View createView() {
+        return createView(null);
     }
 
 
@@ -131,9 +131,9 @@ public class ViewModel extends BaseViewModel {
      * @return
      *          The created view.
      */
-    public View getView(ViewGroup parent) {
+    public View createView(ViewGroup parent) {
 
-        Preconditions.checkArgument(ThreadUtil.isUiThread(), "ViewModel.getView can only be called from the UI thread");
+        Preconditions.checkArgument(ThreadUtil.isUiThread(), "ViewModel.createView can only be called from the UI thread");
 
         int layoutId = getLayoutId();
 
