@@ -47,9 +47,6 @@ import org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg;
 public class ListViewAdapter extends AdapterViewAdapter {
 
 
-    private ViewModelCollection itemSource;
-
-
     private final EventListener checkedChangeListener = new EventListener(ItemCheckedEventArg.class) {
         @Override
         public void invoke(EventArg args) {
@@ -68,15 +65,15 @@ public class ListViewAdapter extends AdapterViewAdapter {
     @Override
     public void setSource(ViewModelCollection source) {
 
-        super.setSource(source);
-        if(itemSource != null) {
-            itemSource.getEventSource().removeEventListener(checkedChangeListener);
+
+        if(this.source != null) {
+            this.source.getEventSource().removeEventListener(checkedChangeListener);
         }
 
-        itemSource = source;
+        super.setSource(source);
 
-        if(itemSource != null) {
-            itemSource.getEventSource().addEventListener(checkedChangeListener);
+        if(this.source != null) {
+            this.source.getEventSource().addEventListener(checkedChangeListener);
         }
 
     }

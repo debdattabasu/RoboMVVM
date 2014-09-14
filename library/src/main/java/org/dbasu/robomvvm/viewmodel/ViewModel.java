@@ -113,7 +113,8 @@ public class ViewModel extends BaseViewModel {
 
 
     /**
-     * Create a view corresponding to this view model. Created with a null parent.
+     * Create a view corresponding to this view model. Created with a null parent. The View Model is stored as a tag on the root View using
+     * {@link org.dbasu.robomvvm.util.ObjectTagger}. This makes sure that the View Model is kept alive as long as the View is alive.
      * @return
      *          The created view.
      */
@@ -123,7 +124,8 @@ public class ViewModel extends BaseViewModel {
 
 
     /**
-     * Create a view corresponding to this view model.
+     * Create a view corresponding to this view model. The View Model is stored as a tag on the root View using
+     * {@link org.dbasu.robomvvm.util.ObjectTagger}. This makes sure that the View Model is kept alive as long as the View is alive.
      * @param parent
      *          Parent to attach the created view to.
      * @return

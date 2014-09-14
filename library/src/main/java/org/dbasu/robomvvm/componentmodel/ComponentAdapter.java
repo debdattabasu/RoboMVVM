@@ -82,7 +82,6 @@ public class ComponentAdapter extends Component {
 
         static {
             adapterTypes = new HashMap<Class<?>, Class<? extends ComponentAdapter>>();
-
             set(MenuItem.class, MenuItemAdapter.class);
             set(View.class, ViewAdapter.class);
             set(ImageView.class, ImageViewAdapter.class);

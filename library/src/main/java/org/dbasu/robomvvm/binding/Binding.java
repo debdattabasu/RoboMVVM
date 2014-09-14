@@ -41,10 +41,10 @@ import org.dbasu.robomvvm.componentmodel.EventArg;
 import java.lang.ref.WeakReference;
 
 /**
- * Allows binding of properties to properties and events to actions between a source {@link org.dbasu.robomvvm.componentmodel.Component}
- * and a target component. Maintains weak references to both the source component and the target component,
- * allowing them to be garbage collected even when the binding is alive. When either the source component or the target
- * component is garbage collected, the binding is automatically unbound.
+ * Allows binding of properties and actions between {@link org.dbasu.robomvvm.componentmodel.Component}s.
+ * Maintains weak references to both the source component and the target component, allowing them to be
+ * garbage collected even when the binding is alive. When either the source component or the target component
+ * is garbage collected, the binding is automatically unbound.
  */
 public class Binding {
 
