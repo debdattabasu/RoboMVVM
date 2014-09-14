@@ -31,6 +31,8 @@
 
 package org.dbasu.robomvvm.componentadapter.adapterview;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -76,6 +78,22 @@ public class AdapterViewAdapter extends ViewAdapter {
         adapterView.setEmptyView(emptyView);
     }
 
+
+    /**
+     * Set the layout to use when the source view model collection is empty.
+     * @param layoutId
+     *              The empty view layout id.
+     */
+    public void setEmptyViewLayout(int layoutId) {
+        AdapterView adapterView = (AdapterView) targetObject;
+        LayoutInflater inflater = (LayoutInflater) adapterView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View emptyView = inflater.inflate(layoutId, null);
+        emptyView.setVisibility(View.GONE);
+        ViewGroup parent = (ViewGroup)adapterView.getParent();
+        int index = parent.indexOfChild(adapterView);
+        parent.addView(emptyView, index + 1);
+        adapterView.setEmptyView(emptyView);
+    }
 
     private void setSourceSelection(int selection) {
 
