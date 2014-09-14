@@ -53,7 +53,6 @@ import java.util.List;
  */
 public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
 
-    private int selectedItem = -1;
     private final List<Integer> checkedItems = new ArrayList<Integer>();
     private final Component eventSource = new Component();
 
@@ -200,14 +199,6 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
 
     }
 
-    /**
-     * Gets the position of the selected item.
-     * @return
-     *          The position of the selected item.
-     */
-    public int getSelectedItem() {
-        return selectedItem;
-    }
 
 
     /**

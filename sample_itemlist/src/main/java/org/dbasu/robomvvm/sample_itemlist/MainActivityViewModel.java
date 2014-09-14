@@ -32,9 +32,12 @@ package org.dbasu.robomvvm.sample_itemlist;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import org.dbasu.robomvvm.annotation.SetLayout;
 import org.dbasu.robomvvm.binding.BindMode;
+import org.dbasu.robomvvm.componentadapter.listview.ScrollEventArg;
+import org.dbasu.robomvvm.componentadapter.listview.ScrollStateChangeEventArg;
 import org.dbasu.robomvvm.viewmodel.ViewModel;
 import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 import org.dbasu.robomvvm.binding.TypedValueConverter;
@@ -128,6 +131,7 @@ public class MainActivityViewModel  extends ViewModel {
        }
     }
 
+
     @Override
     public void bind() {
 
@@ -139,7 +143,6 @@ public class MainActivityViewModel  extends ViewModel {
         bindAction(R.id.modify_button, ClickEventArg.class, "modifyItem");
         bindAction(R.id.list_view, ItemClickEventArg.class, "itemClick");
         bindAction(R.id.list_view, ItemLongClickEventArg.class, "itemLongClick");
-
 
         bindProperty("text", R.id.text_main, "text", new TypedValueConverter(String.class, CharSequence.class), BindMode.BIDIRECTIONAL);
         bindProperty("strings", R.id.list_view, "source");

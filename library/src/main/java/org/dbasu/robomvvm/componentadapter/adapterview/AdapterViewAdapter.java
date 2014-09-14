@@ -95,28 +95,22 @@ public class AdapterViewAdapter extends ViewAdapter {
         adapterView.setEmptyView(emptyView);
     }
 
-    private void setSourceSelection(int selection) {
 
-        if(source == null) return;
+    private int selectedItem;
 
-        Class klass = ViewModelCollection.class;
-        Field selectedItemField = null;
-        try {
-            selectedItemField = klass.getDeclaredField("selectedItem");
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
 
-        selectedItemField.setAccessible(true);
-
-        try {
-            selectedItemField.set(source, selection);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+    private void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+        raisePropertyChangeEvent("selectedItem");
     }
 
-
+    /**
+     * Get the position of the selected item.
+     * @return
+     */
+    public int getSelectedItem() {
+        return selectedItem;
+    }
 
     @Override
     protected void adapt() {
@@ -130,14 +124,14 @@ public class AdapterViewAdapter extends ViewAdapter {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    setSourceSelection(position);
+                    setSelectedItem(position);
                     raiseEvent(new ItemSelectEventArg(AdapterViewAdapter.this, position));
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
-                    setSourceSelection(-1);
+                    setSelectedItem(-1);
                     raiseEvent(new ItemSelectEventArg(AdapterViewAdapter.this, -1));
                 }
             });

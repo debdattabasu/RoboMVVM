@@ -32,6 +32,7 @@
 package org.dbasu.robomvvm.componentadapter.listview;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -45,6 +46,32 @@ import org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg;
  * AdapterView adapter to adapt a ListView.
  */
 public class ListViewAdapter extends AdapterViewAdapter {
+
+    /**
+     * The view is not scrolling. Note navigating the list using the trackball counts as being in the
+     * idle state since these transitions are not animated.
+     */
+    public static final int SCROLL_STATE_IDLE = 0;
+
+    /**
+     * The view is not scrolling. Note navigating the list using the trackball counts
+     * as being in the idle state since these transitions are not animated.
+     */
+    public static final int SCROLL_STATE_TOUCH_SCROLL = 1;
+
+    /**
+     * The user had previously been scrolling using touch and had performed a fling. The animation
+     * is now coasting to a stop.
+     */
+    public static final int SCROLL_STATE_FLING = 2;
+
+    private int scrollState = 0;
+
+
+    private void setScrollState(int scrollState) {
+        this.scrollState = scrollState;
+        raisePropertyChangeEvent("scrollState");
+    }
 
 
     private final EventListener checkedChangeListener = new EventListener(ItemCheckedEventArg.class) {
@@ -78,6 +105,16 @@ public class ListViewAdapter extends AdapterViewAdapter {
 
     }
 
+    /**
+     * Get the Scroll State.
+     * @return
+     *              One of {@link #SCROLL_STATE_IDLE}, {@link #SCROLL_STATE_TOUCH_SCROLL},
+     *              or {@link #SCROLL_STATE_FLING}.
+     */
+    public int getScrollState() {
+        return scrollState;
+    }
+
     @Override
     protected void adapt() {
         super.adapt();
@@ -103,5 +140,20 @@ public class ListViewAdapter extends AdapterViewAdapter {
             });
 
         }
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                raiseEvent(new ScrollStateChangeEventArg(ListViewAdapter.this, scrollState));
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                raiseEvent(new ScrollEventArg(ListViewAdapter.this, firstVisibleItem,
+                        visibleItemCount, totalItemCount));
+            }
+        });
     }
 }
