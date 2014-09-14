@@ -191,7 +191,7 @@ public class HelloViewModel extends ViewModel {
 }
 ```
 
-Bindind Direction
+Binding Direction
 =================
 
 The Binding direction is specified by the [BindMode](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/BindMode.java) enum, which can be either of the following: 
@@ -289,7 +289,7 @@ public class SendViewModel extends ViewModel {
 Binding ViewModel Lists to Adapter Views
 =========================================
 
-RoboMVVM lets you create lists of arbitrary View Models and bind them to [AdapterViews](http://developer.android.com/reference/android/widget/AdapterView.html). This means that you can add items of vastly different look and feel to the same AdapterView. This can be used to easily create rich dynamic item lists. For example, to bind a collection of HelloViewModels(defined above) to a ListView, you would do the following: 
+RoboMVVM lets you create lists of arbitrary View Models and bind them to [AdapterViews](http://developer.android.com/reference/android/widget/AdapterView.html). This means that you can add items of vastly different look and feel to the same AdapterView. This can be used to easily create rich dynamic item lists. For example, to bind a collection of HelloViewModels(defined above) to a [ListView](http://developer.android.com/reference/android/widget/ListView.html), you would do the following: 
 
 ```java
 @SetLayout(R.layout.list_layout)
