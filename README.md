@@ -25,12 +25,14 @@ public class MainActivity extends Activity {
     private final TextWatcher watcher0 = new TextWatcher() {
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(CharSequence s, int start, 
+        	int count, int after) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, 
+        	int before, int count) {
 
             text1.removeTextChangedListener(watcher1);
             text1.setText(text0.getText().toString());
@@ -46,12 +48,15 @@ public class MainActivity extends Activity {
     private final TextWatcher  watcher1 = new TextWatcher() {
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(CharSequence s, int start, 
+        	int count, int after) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, 
+        	int before, int count) {
+
             text0.removeTextChangedListener(watcher0);
             text0.setText(text1.getText().toString());
             text0.addTextChangedListener(watcher0);
@@ -66,7 +71,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
         text0 = (EditText) findViewById(R.id.edit_text_0);
         text1 = (EditText) findViewById(R.id.edit_text_1);
 
@@ -103,14 +110,18 @@ public class MainActivity extends Activity {
 
         @Override
         protected void bind() {
-            bindProperty("text", R.id.edit_text_0, "text", BindMode.BIDIRECTIONAL);
-            bindProperty("text", R.id.edit_text_1, "text", BindMode.BIDIRECTIONAL);
+            bindProperty("text", R.id.edit_text_0, "text", 
+            	BindMode.BIDIRECTIONAL);
+
+            bindProperty("text", R.id.edit_text_1, "text", 
+            	BindMode.BIDIRECTIONAL);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(new MainActivityViewModel(this).getView());
     }
 }
@@ -127,11 +138,24 @@ When a one-way binding is set up from a source property to a target property, an
 The getProperty method calls a getter function with a corresponding name. The setProperty function chooses a setter function based on the property name and the type of the supplied argument. For example, if the name of the property is foo, and the supplied argument is of type int, then the following function calls are attempted:
 
 ```java
-//Function call attempted when trying to get a property named "foo". 
+/**
+ * Function call attempted when trying to get a property named "foo". 
+ * Only one getter is allowed per property. 
+ */
 int getFoo(); 
 
-//Function call attempted when trying to set a property named "foo" to a value of type int.
+/**
+ * Function call attempted when trying to set a property named "foo" 
+ * to a value of type int. 
+ */
 void setFoo(int arg);  
+
+/**
+ * Multiple overloaded setters are allowed per property. This function
+ * call is attempted when trying to set a property named "foo" 
+ * to a value of type String.
+ */
+void setFoo(String arg);  
 ```
 
 The same mechanism is replicated in the other direction for two-way bindings.
@@ -144,7 +168,7 @@ public class HelloViewModel extends ViewModel {
 	
 	private String helloText = "Hello World!";
 
-	//Getter for propert helloText
+	//Getter for property helloText
     public String getHelloText() {
         return helloText;
     }
@@ -159,8 +183,8 @@ public class HelloViewModel extends ViewModel {
 	protected void bind() {
 
 		/**
-		 * Bind the helloText Property to the text property of an EditText
-		 * with id  R.id.edit_text. 
+		 * Bind the helloText Property of this view model to the text property 
+		 * of an EditText with id R.id.edit_text. 
 		 */
 		bindProperty("helloText", R.id.edit_text, "text", BindMode.BIDIRECTIONAL);
 	}
@@ -170,22 +194,49 @@ public class HelloViewModel extends ViewModel {
 Bindind Direction
 =================
 
-The Binding direction is specified by the [BindMode](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/BindMode.java) enum, which can be either SOURCE_TO_TARGET, TARGET_TO_SOURCE, or BIDIRECTIONAL. 
+The Binding direction is specified by the [BindMode](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/BindMode.java) enum, which can be either of the following: 
 
-For binding in any one direction, the source needs to have a property change notifier and a getter, and the target needs to have a setter. For bidirectional binding, the setter, getter, and change notifier need to be present on both the source and the target.
+```java
+/**
+ * Changes in the source property are reflected in the target property but not vice-versa.
+ * The source needs to have a property change notifier and a getter. The target needs to
+ * have a setter.
+ */
+BindMode.SOURCE_TO_TARGET;
+
+/**
+ * Changes in the target property are reflected in the source property but not vice-versa.
+ * The target needs to have a property change notifier and a getter. The source needs to
+ * have a setter.
+ */
+BindMode.TARGET_TO_SOURCE;
+
+/** 
+ * The properties are kept completely in sync. The setter, getter, and change notifier 
+ * need to be present for both the source and the target properties. 
+ */
+BindMode.BIDIRECTIONAL;
+```
+
 
 Value Conversion
 ================
 
-Value conversion is carried out by the [ValueConverter]((https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/ValueConverter.java) interface. Implement this interface to carry out custom conversion and validation. The interface provides one function for each direction of the binding. One-way bindings need only one of these functions, while two-way bindings need both.   
+Value conversion is carried out by the [ValueConverter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/ValueConverter.java) interface. Implement this interface to carry out custom conversion and validation. The interface provides one function for each direction of the binding. One-way bindings need only one of these functions, while two-way bindings need both.   
 
 ```java
 public interface ValueConverter {
 	
-	//This function needs to be implemented for source to target and bidirectional bindings. 
+	/**
+	 * This function needs to be implemented for source to target 
+	 * and bidirectional bindings.
+	 */ 
     public Object convertToTarget(Object value);
 
-    //This function needs to be implemented for target to source and bidirectional bindings. 
+    /**
+     * This function needs to be implemented for target to source 
+     * and bidirectional bindings. 
+     */
     public Object convertToSource(Object value);
 }
 ``` 
@@ -211,7 +262,9 @@ void doSomething(ClickEventArg arg);
  */
 void doSomething(EventArg arg); 
 
-//Has a matching name and no arguments.
+/**
+ * Has a matching name and no arguments.
+ */
 void doSomething(); 
 ```
 
@@ -295,13 +348,17 @@ public class EditTextViewAdapter extends TextViewAdapter {
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, 
+            	int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                raiseEvent(new TextChangeEventArg(EditTextViewAdapter.this, s, start, before, count));
+            public void onTextChanged(CharSequence s, int start, 
+            	int before, int count) {
+
+                raiseEvent(new TextChangeEventArg(EditTextViewAdapter.this, 
+                	s, start, before, count));
             }
 
             @Override
@@ -316,13 +373,19 @@ public class EditTextViewAdapter extends TextViewAdapter {
 As you can see, this adapter uses RoboMVVM style getter/setter methods and raises events. The targetObject is the object that is being wrapped. Wrappers for specific classes need to be registered with the ComponentAdapter.Associations class like this: 
 
 ```java
-//Use the ViewAdapter class to adapt Views. 
+/**
+ * Use the ViewAdapter class to adapt Views. 
+ */
 ComponentAdapter.Associations.set(View.class, ViewAdapter.class);
 
-//Use the TextViewAdapter class to adapt TextViews. 
+/**
+ * Use the TextViewAdapter class to adapt TextViews. 
+ */
 ComponentAdapter.Associations.set(TextView.class, TextViewAdapter.class);
 
-//Use the EditTextViewAdapter class to adapt EditTexts.
+/**
+ * Use the EditTextViewAdapter class to adapt EditTexts.
+ */
 ComponentAdapter.Associations.set(EditText.class, EditTextViewAdapter.class);
 ```
 
@@ -334,7 +397,7 @@ Memory Management
 
 The [Binding](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/binding/Binding.java) class maintains weak references to both the source and the target Component. This allows the components to be garbage collected even when they are involved in a Binding. When either the source or target component is garbage collected, the binding is automatically unbound. 
 
-When a View or a Menu is created from a view model, the library associates a strong reference to the view model with the root View or MenuItem. This means that the view model is kept alive as long as any view or menu that uses it is alive. However, the existence of view models and their bindings does not prevent a view from being garbage collected. 
+When a view or a menu is created from a view model, the library strongly associates the view model with the created root view or menu item. This means that the view model is kept alive as long as any view or menu that uses it is alive. However, the existence of view models and their bindings does not prevent a view from being garbage collected. 
 
 
 View Caching And Reuse
@@ -360,27 +423,28 @@ This library uses the [3-Clause BSD License](http://opensource.org/licenses/BSD-
 	Copyright (c) 2014, Debdatta Basu
 	All rights reserved.
 
-	Redistribution and use in source and binary forms, with or without modification, are permitted 
-	provided that the following conditions are met:
+	Redistribution and use in source and binary forms, with or without modification, 
+	are permitted provided that the following conditions are met:
 
-		1. Redistributions of source code must retain the above copyright notice, this list of 
-		   conditions and the following disclaimer.
+		1. Redistributions of source code must retain the above copyright notice, 
+		   this list of conditions and the following disclaimer.
 
-		2. Redistributions in binary form must reproduce the above copyright notice, this list of 
-		   conditions and the following disclaimer in the documentation and/or other materials 
-		   provided with the distribution.
+		2. Redistributions in binary form must reproduce the above copyright notice,
+		   this list of conditions and the following disclaimer in the documentation
+		   and/or other materials provided with the distribution.
 
-		3. Neither the name of the copyright holder nor the names of its contributors may be used 
-		   to endorse or promote products derived from this software without specific prior 
-		   written permission.
+		3. Neither the name of the copyright holder nor the names of its contributors
+		   may be used  to endorse or promote products derived from this software 
+		   without specific prior written permission.
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
-	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
-	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
 
-	IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+	INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+	OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+	OF SUCH DAMAGE.
