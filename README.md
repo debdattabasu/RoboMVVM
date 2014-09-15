@@ -12,6 +12,11 @@ Because Android does not have a standard property change and event notification 
 Please refer to the [Javadoc](http://debdattabasu.github.io/RoboMVVM/javadoc/) for more information.
 
 
+Installation
+------------
+Clone this repository, add it to Android Studio along with your project, and add a reference to it. A binary sdk is not supplied currently, as RoboMVVM is under rapid development. Please keep an eye on the repository to stay in sync with the latest changes.   
+
+
 TextSync - An Enlightening Use Case
 -----------------------------------
 
