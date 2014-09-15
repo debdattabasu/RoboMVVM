@@ -67,8 +67,9 @@ public class ViewModelCollection<T extends ViewModel> extends Component {
     }
 
     /**
-     * Get the backing store fo this ViewModelCollection. Note that the backing store can not be
-     * used to edit the collection. Use functions of the ViewModelCollection to edit the data.
+     * Get the backing store for this ViewModelCollection. Note that the backing store returned by this
+     * function is a copy of the internal backing store, and can not be used to edit the underlying data.
+     * Use functions of ViewModelCollection to edit the underlying data.
      * @return
      *              The backing store.
      */
@@ -221,7 +222,9 @@ public class ViewModelCollection<T extends ViewModel> extends Component {
     }
 
     /**
-     * Returns a list of positions of checked items in this view model collection.
+     * Returns a list of positions of checked items in this view model collection. Note that the list
+     * returned by this function is a copy of the underlying data, and can not be used to check/uncheck
+     * items. Use functions of ViewModelCollection to make changes to the underlying data.
      * @return
      *              A list of positions of checked items in this view model collection.
      *              Empty list if nothing is checked.
