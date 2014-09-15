@@ -29,6 +29,7 @@
  */
 package org.dbasu.robomvvm.sample_itemlist;
 
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -37,6 +38,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.PopupWindow;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * Main activity for a basic use case of RoboMVVM(https://github.com/debdattabasu/RoboMVVM). This app lets you add,
@@ -44,19 +49,24 @@ import android.widget.PopupWindow;
  */
 public class MainActivity extends Activity {
 
+    private static final String PREFERENCES_ID = "robomvvm_prefs";
+    private static final String ITEMS_PREF = "items";
+
     private PopupWindow aboutPopup;
     private View rootView;
+    private MainActivityViewModel viewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         /**
          * Set MainActivityViewModel as the view model of this
          * activity.
          */
-        MainActivityViewModel viewModel = new MainActivityViewModel(this);
+        viewModel = new MainActivityViewModel(this);
         rootView = viewModel.createView();
         setContentView(rootView);
 
@@ -68,6 +78,20 @@ public class MainActivity extends Activity {
         AboutPopupViewModel aboutPopupViewModel = new AboutPopupViewModel(this);
         aboutPopup = new PopupWindow(aboutPopupViewModel.createView(), LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
+
+        /**
+         * Restore state.
+         */
+
+        SharedPreferences prefs = getSharedPreferences(PREFERENCES_ID, MODE_PRIVATE);
+
+        Set<String> stringItems = prefs.getStringSet(ITEMS_PREF, null);
+
+        if(stringItems != null) {
+            for(String item : stringItems) {
+                viewModel.getStrings().add(new StringViewModel(this, item));
+            }
+        }
 
     }
 
@@ -81,6 +105,24 @@ public class MainActivity extends Activity {
         MainMenuViewModel mainMenu = new MainMenuViewModel(this);
         mainMenu.inflate(menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+        SharedPreferences.Editor prefs = getSharedPreferences(PREFERENCES_ID, MODE_PRIVATE).edit();
+
+        List<StringViewModel> items = viewModel.getStrings().getBackingStore();
+        HashSet<String> stringItems = new HashSet<String>();
+
+        for(StringViewModel item : items) {
+            stringItems.add(item.getString());
+        }
+
+        prefs.putStringSet(ITEMS_PREF, stringItems);
+        prefs.commit();
     }
 
     public void showAboutPopup() {
