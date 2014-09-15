@@ -39,7 +39,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 /**
- * Package private implementation of ArrayAdapter used by {@link org.dbasu.robomvvm.viewmodel.ViewModelCollection2}.
+ * Package private implementation of ArrayAdapter used by {@link ViewModelCollection}.
  */
 class ViewModelArrayAdapter<T extends ViewModel> extends ArrayAdapter<T> {
 

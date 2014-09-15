@@ -39,9 +39,8 @@ import android.widget.ListView;
 import org.dbasu.robomvvm.componentadapter.adapterview.AdapterViewAdapter;
 import org.dbasu.robomvvm.componentmodel.EventArg;
 import org.dbasu.robomvvm.componentmodel.EventListener;
-import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 import org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg;
-import org.dbasu.robomvvm.viewmodel.ViewModelCollection2;
+import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 
 /**
  * AdapterView adapter to adapt a ListView.
@@ -85,8 +84,13 @@ public class ListViewAdapter extends AdapterViewAdapter {
         }
     };
 
+    /**
+     * Set the source view model collection.
+     * @param source
+     *              The source view model collection.
+     */
     @Override
-    public void setSource(ViewModelCollection2 source) {
+    public void setSource(ViewModelCollection source) {
         if(this.source2 != null) {
             this.source2.removeEventListener(checkedChangeListener);
         }
@@ -96,27 +100,6 @@ public class ListViewAdapter extends AdapterViewAdapter {
         if(this.source2 != null) {
             super.source2.addEventListener(checkedChangeListener);
         }
-    }
-
-    /**
-     * Set the source view model collection.
-     * @param source
-     *              The source view model collection.
-     */
-    @Override
-    public void setSource(ViewModelCollection source) {
-
-
-        if(this.source != null) {
-            this.source.getEventSource().removeEventListener(checkedChangeListener);
-        }
-
-        super.setSource(source);
-
-        if(this.source != null) {
-            this.source.getEventSource().addEventListener(checkedChangeListener);
-        }
-
     }
 
     /**

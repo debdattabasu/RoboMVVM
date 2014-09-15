@@ -40,9 +40,6 @@ import android.widget.AdapterView;
 import org.dbasu.robomvvm.componentadapter.view.ViewAdapter;
 import org.dbasu.robomvvm.viewmodel.ViewModel;
 import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
-import org.dbasu.robomvvm.viewmodel.ViewModelCollection2;
-
-import java.lang.reflect.Field;
 
 
 /**
@@ -51,15 +48,7 @@ import java.lang.reflect.Field;
  */
 public class AdapterViewAdapter extends ViewAdapter {
 
-    protected ViewModelCollection source;
-    protected ViewModelCollection2 source2;
-
-
-    public void setSource(ViewModelCollection2 source) {
-        this.source2 = source;
-        AdapterView adapterView = (AdapterView) targetObject;
-        adapterView.setAdapter(source2.getArrayAdapter());
-    }
+    protected ViewModelCollection source2;
 
     /**
      * Set the source view model collection.
@@ -67,10 +56,12 @@ public class AdapterViewAdapter extends ViewAdapter {
      *              The source view model collection.
      */
     public void setSource(ViewModelCollection source) {
-        this.source = source;
+        this.source2 = source;
         AdapterView adapterView = (AdapterView) targetObject;
-        adapterView.setAdapter(source);
+        adapterView.setAdapter(source2.getArrayAdapter());
     }
+
+
 
     /**
      * Set the view model to use when the source view model collection is empty.

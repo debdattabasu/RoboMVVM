@@ -32,19 +32,16 @@ package org.dbasu.robomvvm.sample_itemlist;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import org.dbasu.robomvvm.annotation.SetLayout;
 import org.dbasu.robomvvm.binding.BindMode;
-import org.dbasu.robomvvm.componentadapter.listview.ScrollEventArg;
-import org.dbasu.robomvvm.componentadapter.listview.ScrollStateChangeEventArg;
+
 import org.dbasu.robomvvm.viewmodel.ViewModel;
-import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 import org.dbasu.robomvvm.binding.TypedValueConverter;
 import org.dbasu.robomvvm.componentadapter.view.ClickEventArg;
 import org.dbasu.robomvvm.componentadapter.listview.ItemClickEventArg;
 import org.dbasu.robomvvm.componentadapter.listview.ItemLongClickEventArg;
-import org.dbasu.robomvvm.viewmodel.ViewModelCollection2;
+import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +52,7 @@ import java.util.List;
 @SetLayout(R.layout.activity_main)
 public class MainActivityViewModel  extends ViewModel {
 
-    private final ViewModelCollection2<StringViewModel> strings = new ViewModelCollection2<StringViewModel>(getContext());
+    private final ViewModelCollection<StringViewModel> strings = new ViewModelCollection<StringViewModel>(getContext());
     private String text = "Hello World";
 
     private final StringViewModel emptyViewModel = new StringViewModel(getContext(), "List is empty. Click Add to add items.");
@@ -70,7 +67,7 @@ public class MainActivityViewModel  extends ViewModel {
     }
 
 
-    public ViewModelCollection2<StringViewModel> getStrings() {
+    public ViewModelCollection<StringViewModel> getStrings() {
         return strings;
     }
 

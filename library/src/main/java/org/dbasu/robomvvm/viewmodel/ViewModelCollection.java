@@ -32,8 +32,6 @@
 package org.dbasu.robomvvm.viewmodel;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.google.common.base.Preconditions;
@@ -46,95 +44,180 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+
 /**
- * A collection of {@link org.dbasu.robomvvm.viewmodel.ViewModel}s. Can be used as an array adapter in adapter views.
- * Has an event source {@link org.dbasu.robomvvm.componentmodel.Component} to notify listeners of changing item checked states
- * using {@link org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg}.
+ * A collection of {@link org.dbasu.robomvvm.viewmodel.ViewModel}s. Provides an array adapter for use in adapter views.
+ * Can notify listeners of changing item checked states using {@link org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg}.
  */
-public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
+public class ViewModelCollection<T extends ViewModel> extends Component {
 
+    private final Context context;
+    private final List<T> backingStore = new ArrayList<T>();;
     private final List<Integer> checkedItems = new ArrayList<Integer>();
-    private final Component eventSource = new Component();
-
-
-    /**
-     * Get the event source component that belongs to this view model collection.
-     * @return
-     *          The event source component.
-     */
-    public Component getEventSource() {
-        return eventSource;
-    }
-
+    private final ArrayAdapter<T> arrayAdapter;
 
     /**
-     * Construct a ViewModelCollection with a supplied context using an internal
-     * list of view models as a backing store.
-     *
+     * Construct a ViewModelCollection for a context, using an internal backing store.
      * @param context
      *              The supplied context.
      */
     public ViewModelCollection(Context context) {
-        super(context, 0);
+        this.context = Preconditions.checkNotNull(context);
+        arrayAdapter = new ViewModelArrayAdapter<T>(context, backingStore);
     }
 
     /**
-     * Construct a ViewModelCollection with a supplied context using a supplied list of view models
-     * as a backing store.
-     *
-     * @param context
-     *              The supplied context.
-     * @param objects
-     *              The list of view models to use as a backing store.
+     * Get the backing store fo this ViewModelCollection. Note that the backing store can not be
+     * used to edit the collection. Use functions of the ViewModelCollection to edit the data.
+     * @return
+     *              The backing store.
      */
-    public ViewModelCollection(Context context, List<T> objects) {
-        super(context, 0, objects);
+    public List<T> getBackingStore() {
+        return new ArrayList<T>(backingStore);
     }
 
+    /**
+     * Get the array adapter created by this ViewModelCollection.
+     * @return
+     *              The array adapter.
+     */
+    public ArrayAdapter<T> getArrayAdapter() {
+        return arrayAdapter;
+    }
 
     /**
-     * Remove all the items contained in a collection from this view model collection.
+     * Add an item to the collection.
+     * @param item
+     *          The item to add.
+     */
+    public void add(T item) {
+        arrayAdapter.add(item);
+    }
+
+    /**
+     * Add all items in the supplied collection to this collection.
+     * @param collection
+     *              The collection whose items are to be added to this
+     *              collection.
+     */
+    public void addAll(Collection<T> collection) {
+        arrayAdapter.addAll(collection);
+    }
+
+    /**
+     * Add all items in the supplied argument list to this collection.
      * @param items
-     *              A collection representing the items to remove from this view model collection.
+     *              The items to add to this collection.
      */
-    public void removeAll(Collection<T> items) {
+    public void addAll(T... items) {
+        arrayAdapter.addAll(items);
+    }
 
-        Preconditions.checkNotNull(items);
-        for(T item : items) {
-            remove(item);
+    /**
+     * Inserts the specified item at the specified index in the array.
+     * @param item
+     *              The item to insert into the array.
+     * @param index
+     *              The index at which the item must be inserted.
+     */
+    public void insert(T item, int index) {
+        arrayAdapter.insert(item, index);
+    }
+
+    /**
+     * Get whether this collection contains the specified item.
+     * @param item
+     *              The item to check for.
+     * @return
+     *              True if the item exists. False otherwise.
+     */
+    public boolean contains(T item) {
+        return backingStore.contains(item);
+    }
+
+    /**
+     * Removes the specified item from this collection.
+     * @param item
+     *              The item to remove.
+     * @return
+     *              True if the item existed and was removed. False otherwise.
+     */
+    public boolean remove(T item) {
+        boolean hasItem = contains(item);
+
+        if(hasItem) {
+            arrayAdapter.remove(item);
         }
+
+        return hasItem;
     }
 
     /**
-     * Remove all the items in the argument list from this view model collection.
+     * Removes all the the items in the supplied collection from this collection.
      * @param items
-     *              The items to remove from this view model collection.
+     *              The items to remove.
+     * @return
+     *              True is any of the items existed in this collection and were removed.
+     *              False otherwise.
      */
-    public void removeAll(T... items) {
-        removeAll(Arrays.asList(items));
+    public boolean removeAll(Collection<T> items) {
+        boolean ret = false;
+
+        for(T item : items) {
+            ret |= remove(item);
+        }
+
+        return ret;
     }
 
-
-    private View getCustomView(int position, View convertView, ViewGroup parent) {
-        T viewModel = this.getItem(position);
-
-        View view = viewModel.convertView(convertView);
-        if(view != null) return view;
-
-        return viewModel.createView(parent);
-
+    /**
+     * Removes all the the items in the supplied argument list from this collection.
+     * @param items
+     *              The items to remove.
+     * @return
+     *              True is any of the items existed in this collection and were removed.
+     *              False otherwise.
+     */
+    public boolean removeAll(T... items) {
+        return removeAll(Arrays.asList(items));
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        return getCustomView(position, convertView, parent);
+    /**
+     * Remove all items from this collection.
+     */
+    public void clear() {
+        arrayAdapter.clear();
     }
 
-    @Override
-    public View getDropDownView (int position, View convertView, ViewGroup parent) {
+    /**
+     * Gets the number of items in this collection.
+     * @return
+     *              The number of items in this collection.
+     */
+    public int getCount() {
+        return arrayAdapter.getCount();
+    }
 
-        return getCustomView(position, convertView, parent);
+    /**
+     * Gets the item at a specified position from this collection.
+     * @param position
+     *              The position of the item.
+     * @return
+     *              The item at the specified position.
+     */
+    public T getItem(int position) {
+        return arrayAdapter.getItem(position);
+    }
+
+    /**
+     * Gets the position of the specified item in this collection.
+     * @param item
+     *              The item to get the position of.
+     * @return
+     *              The position of the specified item.
+     */
+    public int getPosition(T item) {
+        return arrayAdapter.getPosition(item);
     }
 
     /**
@@ -164,14 +247,15 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
      * @param position
      *              The item position.
      * @return
-     *              True if the item at the given position was checked. False otherwise.
+     *              True if the item at the given position was previously
+     *              checked, and is now unchecked. False otherwise.
      */
     public boolean removeCheckedItem(int position) {
 
         boolean removed = checkedItems.remove(Integer.valueOf(position));
 
         if(removed) {
-            eventSource.raiseEvent(new ItemCheckedEventArg(eventSource, position, false));
+            raiseEvent(new ItemCheckedEventArg(this, position, false));
         }
 
         return removed;
@@ -182,8 +266,8 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
      * @param positions
      *              A collection representing the positions of the checked items to remove.
      * @return
-     *              True is any of the items given by the positions collection were checked.
-     *              False otherwise.
+     *              True is any of the items given by the positions collection was previously
+     *              checked, and is now unchecked. False otherwise.
      */
     public boolean removeCheckedItems(Collection<Integer> positions) {
 
@@ -199,15 +283,13 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
 
     }
 
-
-
     /**
      * Remove all the the items at positions given by the argument list from the list of checked items.
      * @param positions
      *              The positions of the checked items to remove.
      * @return
-     *              True is any of the items given by the positions were checked.
-     *              False otherwise.
+     *              True is any of the items given by the positions was previously
+     *              checked, and is now unchecked. False otherwise.
      */
     public boolean removeCheckedItems(int... positions) {
         return removeCheckedItems(Ints.asList(positions));
@@ -222,7 +304,7 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
 
         if(!isItemChecked(position)) {
             checkedItems.add(position);
-            eventSource.raiseEvent(new ItemCheckedEventArg(eventSource, position, true));
+            raiseEvent(new ItemCheckedEventArg(this, position, true));
         }
     }
 
@@ -250,15 +332,15 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
     }
 
     /**
-     * Set the item at a give position as the only checked item. Remove any items that were previously checked
-     * from the list of checked items.
+     * Set the item at a give position as the only checked item. Remove any othe items that
+     * were previously checked from the list of checked items.
      * @param position
      *              The item position.
      */
     public void setCheckedItem(int position) {
         clearCheckedItems();
         checkedItems.add(position);
-        eventSource.raiseEvent(new ItemCheckedEventArg(eventSource, position, true));
+        raiseEvent(new ItemCheckedEventArg(this, position, true));
     }
 
     /**
@@ -266,7 +348,7 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
      */
     public void clearCheckedItems() {
         for(Integer i : checkedItems) {
-            eventSource.raiseEvent(new ItemCheckedEventArg(eventSource, i, false));
+            raiseEvent(new ItemCheckedEventArg(this, i, false));
         }
         checkedItems.clear();
     }
@@ -280,5 +362,4 @@ public class ViewModelCollection<T extends ViewModel> extends ArrayAdapter<T> {
         int index = checkedItems.size() -1;
         return index == -1? -1 : checkedItems.get(index);
     }
-
 }
