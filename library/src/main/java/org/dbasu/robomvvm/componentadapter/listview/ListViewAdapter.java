@@ -41,6 +41,7 @@ import org.dbasu.robomvvm.componentmodel.EventArg;
 import org.dbasu.robomvvm.componentmodel.EventListener;
 import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 import org.dbasu.robomvvm.viewmodel.ItemCheckedEventArg;
+import org.dbasu.robomvvm.viewmodel.ViewModelCollection2;
 
 /**
  * AdapterView adapter to adapt a ListView.
@@ -83,6 +84,19 @@ public class ListViewAdapter extends AdapterViewAdapter {
 
         }
     };
+
+    @Override
+    public void setSource(ViewModelCollection2 source) {
+        if(this.source2 != null) {
+            this.source2.removeEventListener(checkedChangeListener);
+        }
+
+        super.setSource(source);
+
+        if(this.source2 != null) {
+            super.source2.addEventListener(checkedChangeListener);
+        }
+    }
 
     /**
      * Set the source view model collection.

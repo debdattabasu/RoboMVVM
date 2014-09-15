@@ -44,6 +44,8 @@ import org.dbasu.robomvvm.binding.TypedValueConverter;
 import org.dbasu.robomvvm.componentadapter.view.ClickEventArg;
 import org.dbasu.robomvvm.componentadapter.listview.ItemClickEventArg;
 import org.dbasu.robomvvm.componentadapter.listview.ItemLongClickEventArg;
+import org.dbasu.robomvvm.viewmodel.ViewModelCollection2;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +55,7 @@ import java.util.List;
 @SetLayout(R.layout.activity_main)
 public class MainActivityViewModel  extends ViewModel {
 
-    private final ViewModelCollection<StringViewModel> strings = new ViewModelCollection<StringViewModel>(getContext());
+    private final ViewModelCollection2<StringViewModel> strings = new ViewModelCollection2<StringViewModel>(getContext());
     private String text = "Hello World";
 
     private final StringViewModel emptyViewModel = new StringViewModel(getContext(), "List is empty. Click Add to add items.");
@@ -68,7 +70,7 @@ public class MainActivityViewModel  extends ViewModel {
     }
 
 
-    public ViewModelCollection<StringViewModel> getStrings() {
+    public ViewModelCollection2<StringViewModel> getStrings() {
         return strings;
     }
 
