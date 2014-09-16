@@ -363,7 +363,7 @@ RoboMVVM lets you create lists of arbitrary View Models and bind them to [Adapte
 public class ListViewModel extends ViewModel {
 
 	private ViewModelCollection<HelloViewModel> greetingCollection = 
-		new ViewModelCollection<HelloViewModel>(); 
+		new ViewModelCollection<HelloViewModel>(getContext()); 
 
 	public ViewModelCollection<HelloViewModel> getGreetingCollection() {
 		return greetingColection;
