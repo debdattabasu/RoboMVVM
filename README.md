@@ -1,7 +1,7 @@
 RoboMVVM - MVVM Framework For Android
 =====================================
 
-RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to simplify the building, testing and refactoring of UI applications. The MVVM pattern heavily utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding), the ability to make property changes in one component reflect in its observers.
+RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. The MVVM pattern utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding) to keep arbitrary data of arbitrary components in sync. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to greatly simplify the building, testing and refactoring of UI applications. 
 
 RoboMVVM will save countless hours of your time by providing you with the tools you need to quickly setup bindings between your views and your data models. 
 
