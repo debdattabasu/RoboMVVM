@@ -1,7 +1,7 @@
 RoboMVVM - MVVM Framework For Android
 =====================================
 
-RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to simplify the building, testing and refactoring of UI applications. The MVVM pattern heavily utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding), the ability to make property changes in one component reflect in its observers.
+RoboMVVM is an open source library that facilitates the use of the [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) pattern in Android apps. The MVVM pattern utilizes [Data Binding](http://en.wikipedia.org/wiki/Data_binding) to keep arbitrary data of arbitrary components in sync. Those familiar with the .NET world can appreciate the ability of the MVVM pattern to greatly simplify the building, testing and refactoring of UI applications. 
 
 RoboMVVM will save countless hours of your time by providing you with the tools you need to quickly setup bindings between your views and your data models. 
 
@@ -10,6 +10,11 @@ At the core of RoboMVVM is the [Component](https://github.com/debdattabasu/RoboM
 Because Android does not have a standard property change and event notification system, an MVVM library must wrap Android classes in its own adapters to allow for Data and Action binding. RoboMVVM provides the [ComponentAdapter](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src/main/java/org/dbasu/robomvvm/componentmodel/ComponentAdapter.java) class for this purpose. It also provides many ComponentAdapter subclasses that act as adapters for most commonly used Android classes.
 
 Please refer to the [Javadoc](http://debdattabasu.github.io/RoboMVVM/javadoc/) for more information.
+
+
+Installation
+------------
+Clone this repository, add it to Android Studio along with your project, and add a reference to it. A binary sdk is not supplied currently, as RoboMVVM is under rapid development. Please keep an eye on the repository to stay in sync with the latest changes.   
 
 
 TextSync - An Enlightening Use Case
@@ -358,7 +363,7 @@ RoboMVVM lets you create lists of arbitrary View Models and bind them to [Adapte
 public class ListViewModel extends ViewModel {
 
 	private ViewModelCollection<HelloViewModel> greetingCollection = 
-		new ViewModelCollection<HelloViewModel>(); 
+		new ViewModelCollection<HelloViewModel>(getContext()); 
 
 	public ViewModelCollection<HelloViewModel> getGreetingCollection() {
 		return greetingColection;

@@ -41,8 +41,6 @@ import org.dbasu.robomvvm.componentadapter.view.ViewAdapter;
 import org.dbasu.robomvvm.viewmodel.ViewModel;
 import org.dbasu.robomvvm.viewmodel.ViewModelCollection;
 
-import java.lang.reflect.Field;
-
 
 /**
  *  A view adapter to adapt an AdapterView. Can bind {@link org.dbasu.robomvvm.viewmodel.ViewModelCollection}s to
@@ -60,8 +58,10 @@ public class AdapterViewAdapter extends ViewAdapter {
     public void setSource(ViewModelCollection source) {
         this.source = source;
         AdapterView adapterView = (AdapterView) targetObject;
-        adapterView.setAdapter(source);
+        adapterView.setAdapter(this.source.getArrayAdapter());
     }
+
+
 
     /**
      * Set the view model to use when the source view model collection is empty.
