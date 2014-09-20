@@ -15,7 +15,7 @@ Please refer to the [Javadoc](http://debdattabasu.github.io/RoboMVVM/javadoc/) f
 TextSync - An Enlightening Use Case
 -----------------------------------
 
-Android code is notoriously ugly to write and maintain. For example, consider the code we need to write to keep the text property of two [EditTexts](http://developer.android.com/reference/android/widget/EditText.html) in sync. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_textsync_no_mvvm).
+Android code is notoriously ugly to write and maintain. For example, consider the code we need to write to keep the text property of two [EditTexts](http://developer.android.com/reference/android/widget/EditText.html) in sync. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/textsync_no_mvvm).
 
 ```java
 public class MainActivity extends Activity {
@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
 
 That's an awful lot of code for such a simple task. You will notice that the actual business logic is only a handful of lines. The rest of the code is just boilerplate to conform to how android works. This is repetitive code that must be written a countess number times in every android project, and in many cases, this obfuscates the real intent of the code. 
 
-Now consider the same example with data binding in RoboMVVM. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_textsync).
+Now consider the same example with data binding in RoboMVVM. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/textsync).
 
 ```java
 public class MainActivity extends Activity {
@@ -474,7 +474,7 @@ Use this feature when you have a large number of ViewModels of the same type, on
 Item List Sample
 ----------------
 
-This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/sample_itemlist). 
+This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/itemlist). 
 
 
 License
