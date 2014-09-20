@@ -1,1 +1,1 @@
-include ':library', ':samples:itemlist', ':samples:textsync_no_mvvm', ':samples:textsync'
+include ':library', ':samples:itemlist', ':samples:textsync_no_mvvm', ':samples:textsync', 'samples:tipcalc'

@@ -476,6 +476,11 @@ The [ViewModel](https://github.com/debdattabasu/RoboMVVM/blob/master/library/src
 Use this feature when you have a large number of ViewModels of the same type, only some of which have Views that are visible to the user. When one ViewModel's view becomes invisible, its View can be adapted for use by another ViewModel.     
 
 
+TipCalc Sample
+----------------
+
+This is a simple tip calculator that uses a user-settable percentage to calculate the tip. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/tipcalc). This is inspired by the MVVMCross TipCalc example [here](http://www.codeproject.com/Articles/566270/MvvmCross-TipCalc-Step-1-Creati). 
+
 Item List Sample
 ----------------
 
