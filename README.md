@@ -481,10 +481,14 @@ TipCalc Sample
 
 This is a simple tip calculator that uses a user-settable percentage to calculate the tip. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/tipcalc). This is inspired by the MVVMCross TipCalc example [here](http://www.codeproject.com/Articles/566270/MvvmCross-TipCalc-Step-1-Creati). 
 
+A tutorial for this sample is on CodeProject. Get it [here](http://www.codeproject.com/Articles/821103/RoboMVVM-TipCalc).
+
 Item List Sample
 ----------------
 
-This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/itemlist). 
+This app lets you add, remove and modify string items in a ListView. It also has an options menu where you can view a description of this app. It demonstrates the binding of View Model Collections, as well as handling of menus. You can find this sample in the repository [here](https://github.com/debdattabasu/RoboMVVM/tree/master/samples/itemlist).
+
+
 
 
 License
